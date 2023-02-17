@@ -12,6 +12,7 @@ import (
 	"web_app/dao/mysql"
 	"web_app/dao/redis"
 	"web_app/logger"
+	"web_app/pkg/snowflake"
 	"web_app/routes"
 	"web_app/settings"
 
@@ -34,6 +35,12 @@ func main() {
 	}
 	zap.L().Debug("logger init success")
 	defer zap.L().Sync()
+
+	// 初始化雪花算法id
+	if err := snowflake.Init(1); err != nil {
+		fmt.Printf("init snowflake failed, err: %v\n", err)
+		return
+	}
 	// 3. 初始化数据库连接
 	if err := mysql.Init(settings.Conf.MysqlConfig); err != nil {
 		fmt.Printf("init mysql failed, err: %v\n", err)
