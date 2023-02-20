@@ -17,7 +17,10 @@ func Init(redisConfig *settings.RedisConfig) (err error) {
 		PoolSize: redisConfig.PoolSize, // 连接池大小
 	})
 
-	rdb.Ping(rdb.Context()).Result()
+	_, err = rdb.Ping(rdb.Context()).Result()
+	if err != nil {
+		fmt.Println(err)
+	}
 	return
 }
 
