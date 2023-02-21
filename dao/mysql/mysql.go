@@ -1,8 +1,8 @@
 package mysql
 
 import (
+	"bluebell/settings"
 	"fmt"
-	"web_app/settings"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/jmoiron/sqlx"
