@@ -33,7 +33,6 @@ func Init(logConfig *settings.LogConfig, mode string) (err error) {
 		// 日志输出到中端
 		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
 		core = zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zapcore.DebugLevel)
-
 	} else {
 		core = zapcore.NewCore(encoder, writeSyncer, l)
 	}

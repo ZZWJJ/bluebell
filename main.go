@@ -17,7 +17,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
 
@@ -35,7 +34,6 @@ func main() {
 		return
 	}
 	zap.L().Debug("logger init success")
-	zap.L().Info(settings.Conf.Mode)
 	defer zap.L().Sync()
 
 	// 初始化雪花算法id
@@ -64,7 +62,7 @@ func main() {
 	}
 	// 6. 启动服务（优雅重启、关机）
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", viper.GetInt("app.port")),
+		Addr:    fmt.Sprintf(":%d", settings.Conf.Port),
 		Handler: r,
 	}
 	go func() {
