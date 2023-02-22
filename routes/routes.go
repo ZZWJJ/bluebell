@@ -15,6 +15,9 @@ func Setup() *gin.Engine {
 	// 注册登录
 	r.POST("signUp", controller.SignUpHandler)
 
+	// 登录
+	r.POST("login", controller.LoginHandler)
+
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    http.StatusOK,

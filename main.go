@@ -3,7 +3,6 @@ package main
 import (
 	"bluebell/controller"
 	"bluebell/dao/mysql"
-	"bluebell/dao/redis"
 	"bluebell/logger"
 	"bluebell/pkg/snowflake"
 	"bluebell/routes"
@@ -48,11 +47,11 @@ func main() {
 	}
 	defer mysql.Close()
 	// 4. 初始化redis
-	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
-		fmt.Printf("init redis failed, err: %v\n", err)
-		return
-	}
-	redis.Close()
+	//if err := redis.Init(settings.Conf.RedisConfig); err != nil {
+	//	fmt.Printf("init redis failed, err: %v\n", err)
+	//	return
+	//}
+	//redis.Close()
 	// 5. 注册路由
 	r := routes.Setup()
 	//初始化gin内部校验器的翻译器
