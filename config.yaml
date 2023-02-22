@@ -22,9 +22,9 @@ mysql:
   max_idle_conns: 1
 
 redis:
-  host: "127.0.0.1"
-  port: 6379
-  pasword: ""
+  host: "localhost"
+  port: 32768
+  password: "redispw"
   db: 0
   pool_size: 20
 

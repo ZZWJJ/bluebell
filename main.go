@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bluebell/controller"
 	"bluebell/dao/mysql"
 	"bluebell/dao/redis"
 	"bluebell/logger"
@@ -28,12 +29,13 @@ func main() {
 		fmt.Printf("init settings failed, err: %v\n", err)
 		return
 	}
-	// 2. 初始化日志
-	if err := logger.Init(settings.Conf.LogConfig); err != nil {
+	// 2. 初始化日志发、
+	if err := logger.Init(settings.Conf.LogConfig, settings.Conf.Mode); err != nil {
 		fmt.Printf("init logger failed, err: %v\n", err)
 		return
 	}
 	zap.L().Debug("logger init success")
+	zap.L().Info(settings.Conf.Mode)
 	defer zap.L().Sync()
 
 	// 初始化雪花算法id
@@ -46,7 +48,7 @@ func main() {
 		fmt.Printf("init mysql failed, err: %v\n", err)
 		return
 	}
-	mysql.Close()
+	defer mysql.Close()
 	// 4. 初始化redis
 	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
 		fmt.Printf("init redis failed, err: %v\n", err)
@@ -54,8 +56,12 @@ func main() {
 	}
 	redis.Close()
 	// 5. 注册路由
-
 	r := routes.Setup()
+	//初始化gin内部校验器的翻译器
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Printf("init trans failed, err: %v\n", err)
+		return
+	}
 	// 6. 启动服务（优雅重启、关机）
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", viper.GetInt("app.port")),
