@@ -20,7 +20,20 @@ import (
 	"go.uber.org/zap"
 )
 
-// go web 开发通用脚手架
+// @title bluebell项目接口文档
+// @version 1.0
+// @description bluebell项目接口文档
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name zzw
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1:8080
+// @BasePath /
 func main() {
 
 	// 1. 加载配置文件

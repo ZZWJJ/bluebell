@@ -13,7 +13,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SignUpHandler 用户注册
+// SignUpHandler 用户注册接口
+// @Summary 用户注册接口
+// @Description 用户注册
+// @Tags 用户相关
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query model.ParamSignUp true "查询参数"
+// @Security ApiKeyAuth
+// @Success 200
+// @Router /signUp [post]
 func SignUpHandler(c *gin.Context) {
 	// 参数校验
 	p := new(model.ParamSignUp)
@@ -37,7 +47,17 @@ func SignUpHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, "ok")
 }
 
-// LoginHandler 用户登录
+// LoginHandler 用户登录接口
+// @Summary 用户登录
+// @Description 用户登录
+// @Tags 用户相关
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string false "Bearer 用户令牌"
+// @Param object query model.ParamLogin true "查询参数"
+// @Security ApiKeyAuth
+// @Success 200
+// @Router /login [post]
 func LoginHandler(c *gin.Context) {
 	// 1.获取请求参数并校验
 	var p = new(model.ParamLogin)
