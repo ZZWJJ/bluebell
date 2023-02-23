@@ -53,10 +53,10 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	// 2.业务逻辑处理
-	if err := service.Login(p); err != nil {
-		c.JSON(http.StatusOK, gin.H{"msg": "用户名密码错误"})
-		return
+	token, err := service.Login(p)
+	if err != nil {
+		ResponseError(c, CodeInvalidPassword)
 	}
 	// 3.返回响应
-	c.JSON(http.StatusOK, gin.H{"msg": "登录成功"})
+	c.JSON(http.StatusOK, token)
 }
