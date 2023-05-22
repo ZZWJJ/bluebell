@@ -2,8 +2,10 @@ package routes
 
 import (
 	"bluebell/controller"
+	"bluebell/gokit/endpoint"
+	"bluebell/gokit/service"
+	"bluebell/gokit/transport"
 	"bluebell/logger"
-	"bluebell/middlewares"
 	"net/http"
 
 	_ "bluebell/docs" // 千万不要忘了导入把你上一步生成的docs
@@ -17,13 +19,24 @@ func Setup() *gin.Engine {
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 
+	kitGroup := r.Group("/kit")
+
+	// Create a new service
+	svc := service.Add{}
+
+	// Create the endpoints
+	sum := endpoint.MakeSumEndpoint(&svc)
+	concat := endpoint.MakeConcatEndpoint(&svc)
+
+	transport.MakeHttpHandler(kitGroup, sum, concat)
+
 	// 注册
-	r.POST("signUp", controller.SignUpHandler)
+	r.POST("/signUp", controller.SignUpHandler)
 
 	// 登录
-	r.POST("login", controller.LoginHandler)
+	r.POST("/login", controller.LoginHandler)
 
-	r.GET("ping", middlewares.JWTAuthMiddleware(), func(c *gin.Context) {
+	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
 
